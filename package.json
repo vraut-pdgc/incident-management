@@ -7,7 +7,8 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^8",
-    "express": "^4"
+    "express": "^4",
+    "@cap-js/hana": "^1"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
@@ -16,7 +17,39 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-incidents": "cds watch --open incidents/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-incidents": "cds watch --profile development --open incidents/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "requires": {
+      "auth": {
+        "restrict_all_services": false,
+        "kind": "mocked",
+        "users": {
+          "incident.support@tester.sap.com": {
+            "password": "initial",
+            "roles": [
+              "support"
+            ]
+          },
+          "alice": {
+            "roles": [
+              "support"
+            ]
+          },
+          "bob": {
+            "roles": [
+              "support"
+            ]
+          }
+        }
+      },
+      "[production]": {
+        "db": "hana"
+      }
+    },
+    "sql": {
+      "native_hana_associations": false
+    }
   },
   "sapux": [
     "app/incidents"

@@ -8,7 +8,8 @@
   "dependencies": {
     "@sap/cds": "^8",
     "express": "^4",
-    "@cap-js/hana": "^1"
+    "@cap-js/hana": "^1",
+    "@sap/xssec": "^4"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
@@ -21,30 +22,33 @@
   },
   "cds": {
     "requires": {
-      "auth": {
-        "restrict_all_services": false,
-        "kind": "mocked",
-        "users": {
-          "incident.support@tester.sap.com": {
-            "password": "initial",
-            "roles": [
-              "support"
-            ]
-          },
-          "alice": {
-            "roles": [
-              "support"
-            ]
-          },
-          "bob": {
-            "roles": [
-              "support"
-            ]
+      "[development]": {
+        "auth": {
+          "restrict_all_services": false,
+          "kind": "mocked",
+          "users": {
+            "incident.support@tester.sap.com": {
+              "password": "initial",
+              "roles": [
+                "support"
+              ]
+            },
+            "alice": {
+              "roles": [
+                "support"
+              ]
+            },
+            "bob": {
+              "roles": [
+                "support"
+              ]
+            }
           }
         }
       },
       "[production]": {
-        "db": "hana"
+        "db": "hana",
+        "auth": "xsuaa"
       }
     },
     "sql": {

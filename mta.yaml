@@ -37,19 +37,9 @@ modules:
     build-result: app/
     requires:
     - artifacts:
-      - incidents.zip
-      name: incidentmanagementincidents
-      target-path: app/
-- name: incidentmanagementincidents
-  type: html5
-  path: app/incidents
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm ci
-    - npm run build
-    supported-platforms: []
+      - nsincidents.zip
+      name: nsincidents
+      target-path: app//
 - name: incident-management-destination-content
   type: com.sap.application.content
   requires:
@@ -80,6 +70,16 @@ modules:
         existing_destinations_policy: ignore
   build-parameters:
     no-source: true
+- name: nsincidents
+  type: html5
+  path: app/incidents
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
 resources:
 - name: incident-management-db
   type: com.sap.xs.hdi-container
@@ -105,10 +105,28 @@ resources:
   parameters:
     config:
       HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: incident-management-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
       version: 1.0.0
     service: destination
     service-name: incident-management-destination-service
     service-plan: lite
+  requires:
+  - name: srv-api
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true

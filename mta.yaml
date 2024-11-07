@@ -69,6 +69,7 @@ modules:
       instance:
         destinations:
         - Name: incidents_incident_management_html5_repo_host
+          ServiceInstanceName: incident-management-html5-repo-host
           ServiceKeyName: incident-management-html5-repo-host-key
           sap.cloud.service: incidents
         - Authentication: OAuth2UserTokenExchange

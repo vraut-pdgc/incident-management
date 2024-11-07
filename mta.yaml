@@ -28,18 +28,18 @@ modules:
     buildpack: nodejs_buildpack
 - name: incident-management-app-deployer
   type: com.sap.application.content
-  path: gen
+  path: .
   requires:
   - name: incident-management-html5-repo-host
     parameters:
       content-target: true
   build-parameters:
-    build-result: app/
+    build-result: resources/
     requires:
     - artifacts:
       - nsincidents.zip
       name: nsincidents
-      target-path: app//
+      target-path: resources/
 - name: incident-management-destination-content
   type: com.sap.application.content
   requires:
@@ -136,3 +136,4 @@ build-parameters:
     commands:
     - npm ci
     - npx cds build --production
+    - mkdir -p resources
